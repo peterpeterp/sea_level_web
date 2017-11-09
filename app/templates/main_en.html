@@ -1,0 +1,120 @@
+{% extends "index.html" %}
+{% block content %}
+<div id="loading"><div id="overlay"></div><div id='overlay_text'><h1>Loading ... </h1></div></div>
+
+<div id="content">
+<div id="LeftPanel" align='center' style="width: 50%; height: 100%; float: left;">
+<h3>Choose a location:</h3>
+<div id="map" class="map"><div id="popup"></div></div>
+<script>
+
+  var iconFeatures =[];
+  var station_names = {{station_names|safe}};
+  var station_lons = {{station_lons|safe}};
+  var station_lats = {{station_lats|safe}};
+  var station_colors = {{station_colors|safe}};
+  var station_icons = {{station_icons|safe}};
+  var nn = {{nn}};
+
+  for (i = 0; i<nn; i++){
+    var iconFeature = new ol.Feature({
+      geometry: new ol.geom.Point(ol.proj.fromLonLat([station_lons[i],station_lats[i]], 'EPSG:4326')),
+      name: station_names[i],
+    });
+    var iconStyle = new ol.style.Style({
+      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        anchor: [0.5, 1],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: station_icons[i]
+      }))
+    });
+    iconFeature.setStyle(iconStyle);
+    iconFeatures.push(iconFeature);
+  }
+
+  var vectorSource = new ol.source.Vector({
+    features: iconFeatures
+  });
+
+  var vectorLayer = new ol.layer.Vector({
+    source: vectorSource,
+  });
+
+  var rasterLayer = new ol.layer.Tile({
+    source: new ol.source.TileJSON({
+      url: 'https://api.tiles.mapbox.com/v3/mapbox.natural-earth-hypso-bathy.json?secure',
+      crossOrigin: ''
+    })
+  });
+
+  var center_lon = {{center_lon}};
+  var center_lat = {{center_lat}};
+  var zoom = {{zoom}};
+  var map = new ol.Map({
+    layers: [rasterLayer, vectorLayer],
+    target: document.getElementById('map'),
+    view: new ol.View({
+      center: ol.proj.fromLonLat([center_lon, center_lat], 'EPSG:4326'),
+      zoom: zoom,
+      projection: 'EPSG:4326'
+    })
+  });
+
+  var element = document.getElementById('popup');
+
+  var popup = new ol.Overlay({
+    element: element,
+    positioning: 'bottom-center',
+    stopEvent: false,
+    offset: [0, -50]
+  });
+  map.addOverlay(popup);
+
+  // display popup on click
+  map.on('click', function(evt) {
+    var feature = map.forEachFeatureAtPixel(evt.pixel,
+        function(feature) {
+          return feature;
+        });
+    if (feature) {
+      var coordinates = feature.getGeometry().getCoordinates();
+      popup.setPosition(coordinates);
+      window.location = "/location/"+feature.get('name');
+      $(element).popover({
+        'placement': 'top',
+        'html': true,
+        'content': feature.get('name')
+      });
+      $(element).popover('show');
+    } else {
+      $(element).popover('destroy');
+    }
+
+  });
+
+  // change mouse cursor when over marker
+  map.on('pointermove', function(e) {
+    if (e.dragging) {
+      $(element).popover('destroy');
+      return;
+    }
+    var pixel = map.getEventPixel(e.originalEvent);
+    var hit = map.hasFeatureAtPixel(pixel);
+    map.getTarget().style.cursor = hit ? 'pointer' : '';
+  });
+</script>
+
+<div align='left'>
+<br>
+<IMG SRC='/static/marker-gold.png' ALT=' ' WIDTH=3%></IMG> Tide gauged station<br>
+<IMG SRC='/static/marker-green.png' ALT=' ' WIDTH=3%></IMG> From gridded dataset<br>
+</div>
+</div>
+
+<div id="LeftPanel" align=center style="width: 50%; height: 100%; float: left;">
+  <h3>{{name}}</h3>
+  <IMG SRC={{ plot_file }} ALT=' ' WIDTH=100%></IMG>
+</div>
+</div>
+{% endblock %}

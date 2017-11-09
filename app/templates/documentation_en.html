@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+
+<!-- BEGIN COMPONENT Simple Table - Taco HTML Edit -->
+<style type="text/css">
+table#myTable
+{
+	width: 40%;
+	margin-left: 100px;
+	border: 0px solid #6c7aa9;
+	border-collapse: separate;
+	border-spacing: 0px;
+	*border-collapse: expression('separate', cellSpacing = '0px'); /*For IE*/
+}
+table#myTable tbody tr
+{
+	background-color: #ffffff;
+	color: #000000;
+}
+table#myTable tbody tr.tswOddRow
+{
+	background-color: #edf3ff;
+}
+table#myTable td
+{
+	border: 1px solid #cccccc;
+	padding: 2px;
+
+}
+
+p
+{
+    width:600px;
+    word-wrap:break-word;
+    margin-left: 100px
+}
+
+ul.list
+{
+    width:600px;
+    word-wrap:break-word;
+    margin-left: 100px;
+    list-style-type:square;
+}
+
+section {
+    padding-top: 60px;
+    margin-top: -60px;
+}
+
+h2
+{
+    width:600px;
+    word-wrap:break-word;
+    margin-left: 40px
+}
+
+h3
+{
+    width:600px;
+    word-wrap:break-word;
+    margin-left: 60px
+}
+
+h4
+{
+    width:600px;
+    word-wrap:break-word;
+    margin-left: 80px
+}
+
+#parent {
+    width:100%;
+    height:100%;
+}
+
+#sidebar {
+    padding-top:50px; /* padding-top must be the same as header height */
+    width:300px;
+    height:100%;
+    /*background-color: blue;*/
+    box-sizing:border-box;
+    position: fixed;
+    z-index:99;
+}
+
+#main-content {
+    position: relative;
+    width: 100%;
+    padding-left:300px; /* padding-left must be the same as sidebar width */
+    /*height: 300px;  This could be anything, content should scroll vertical */
+    /*background: green;*/
+    box-sizing:border-box;
+    padding-top: 50px; /* padding-top must be the same as header height */
+    padding-bottom: 150px;
+    height: 100%;
+    overflow: auto;
+}
+
+.anchor{
+   display:block;
+   height:60px; /* this is the height of your header */
+   margin-top:-60px; /* this is again negative value of the height of your header */
+   visibility:hidden;
+}
+
+</style>
+
+
+
+
+<!-- END COMPONENT Simple Table - Taco HTML Edit -->
+
+<!-- End HEAD content -->
+<div id="loading"><div id="overlay"></div><div id='overlay_text'><h1>Loading ... </h1></div></div>
+
+<div id="content">
+
+<div id="sidebar">
+  <div id="table-of-contents">
+    <div id="text-table-of-contents">
+    <a href="#doc_start">Documentation</a>
+      <ul>
+
+        <li><a href="#doc_summary">Summary</a></li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<div id="main-content">
+
+  <h1 class="title" id="doc_start">Documentation</h1>
+
+</div>
+</div>
+{% endblock %}
