@@ -47,6 +47,7 @@ station_lats=settings.station_lats
 station_colors=settings.station_colors
 station_icons=settings.station_icons
 stations=settings.stations
+slr=settings.slr
 languages={'en':'English','fr':'Français'}
 
 @app.route('/')
@@ -56,29 +57,20 @@ def index():
   session['name']='MAGUEYES ISLAND'
   return location(session['name'])
 
-@app.route('/main')
-def main():
-    s=session
-    context = {
-      'station_names':json.dumps(station_names),
-      'station_lons':json.dumps(station_lons),
-      'station_lats':json.dumps(station_lats),
-      'station_icons':json.dumps(station_icons),
-      'station_colors':json.dumps(station_colors),
-      'center_lon':-80,
-      'center_lat':10,
-      'nn':len(station_names),
-      'zoom':3,
-      'name':'',
-    }
-    session['location']='main'
-    return render_template('main_en.html',**context)
-
-
 @app.route('/location/<name>')
 def location(name):
     s=session
-    print name
+    ID=stations[name,'ID']
+
+    table={}
+    for rcp in ['rcp26','rcp45','rcp85']:
+        table[rcp]={}
+        for year in [2030,2050,2100,2150,2200]:
+            table[rcp][year]={'year':year,
+                            '50':slr[ID,rcp,0.5,year],
+                            '17-83':str(slr[ID,rcp,0.167,year])+'-'+str(slr[ID,rcp,0.833,year]),
+                            '5-95':str(slr[ID,rcp,0.05,year])+'-'+str(slr[ID,rcp,0.95,year]),
+                            '99.9':slr[ID,rcp,0.999,year]}
 
     context = {
       'station_names':json.dumps(station_names),
@@ -92,6 +84,7 @@ def location(name):
       'nn':len(station_names),
       'zoom':5,
       'name':name,
+      'table':table
     }
     s['name']=name
     s['location']='main'

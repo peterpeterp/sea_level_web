@@ -32,6 +32,7 @@ import pycountry
 import dimarray as da
 
 stations=da.read_nc('data/stations.nc')['stations']
+slr=da.read_nc('data/slr.nc')['slr']
 
 station_names=list(stations.name)
 station_lons,station_lats,station_colors,station_icons=[],[],[],[]

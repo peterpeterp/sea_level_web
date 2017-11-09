@@ -119,20 +119,26 @@
 </div>
 <div id="LeftPanel" align=center style="width: 80%; height: 100%; float: left; padding-left: 10%;">
   <table class="table">
-  <thead>
-    <tr>
-      <th colspan="4">{{name}}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>cm</td><td>sdfs</td><td>17-83</td><td>5-95</td><td>99.9</td>
-    </tr>
-
-
-
-  </tbody>
-  </table>
+  {% for rcp in ['rcp26','rcp45','rcp85'] %}
+    <thead>
+      <tr>
+        <th colspan="5">{{rcp}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>decade</td><td>50</td><td>17-83</td><td>5-95</td><td>99.9</td>
+      </tr>
+      {% for year in [2030,2050,2100,2150,2200] %}
+        <tr>
+          {% for val in ['year','50','17-83','5-95','99.9'] %}
+          <td>{{table[rcp][year][val]}}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  {% endfor %}
+</table>
 </div>
 </div>
 {% endblock %}
