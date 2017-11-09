@@ -10,17 +10,18 @@ import matplotlib.pylab as plt
 from matplotlib import rcParams
 import seaborn as sns
 
+overwrite=True
 
 slr=da.read_nc('data/slr.nc')['slr']
 # plot all
 for i in slr.ID:
-    if os.path.isfile('app/static/plots/'+str(i)+'.png')==False:
+    if os.path.isfile('app/static/plots/'+str(i)+'.png')==False or overwrite:
         plt.close()
         fig = plt.figure(figsize=(5,4))
-        plt.plot([2000,2300],[0,0],'k--')
-        for rcp,color in zip(['rcp85','rcp45','rcp26'],rcParams['axes.color_cycle'][0:3]):
-            plt.fill_between(slr.decade,slr[i,rcp,0.167],slr[i,rcp,0.833],alpha=0.2,color=color)
-            plt.plot(slr.decade,slr[i,rcp,0.5],color=color,label=rcp)
+        plt.plot([2000,2200],[0,0],'k--')
+        for rcp,color in zip(['rcp85','rcp45','rcp26'],rcParams['axes.color_cycle'][0:3][::-1]):
+            plt.fill_between(slr.decade[0:20],slr[i,rcp,0.167].ix[0:20],slr[i,rcp,0.833].ix[0:20],alpha=0.2,color=color)
+            plt.plot(slr.decade[0:20],slr[i,rcp,0.5].ix[0:20],color=color,label=rcp)
         plt.ylabel('Sea level rise [cm]')
         plt.legend(loc='upper left')
         plt.tight_layout()

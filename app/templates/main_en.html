@@ -106,15 +106,33 @@
 </script>
 
 <div align='left'>
-<br>
-<IMG SRC='/static/marker-gold.png' ALT=' ' WIDTH=3%></IMG> Tide gauged station<br>
-<IMG SRC='/static/marker-green.png' ALT=' ' WIDTH=3%></IMG> From gridded dataset<br>
-</div>
+  <br>
+  <IMG SRC='/static/marker-gold.png' ALT=' ' WIDTH=3%></IMG> Tide gauged station<br>
+  <IMG SRC='/static/marker-green.png' ALT=' ' WIDTH=3%></IMG> From gridded dataset<br>
 </div>
 
-<div id="LeftPanel" align=center style="width: 50%; height: 100%; float: left;">
+</div>
+
+<div id="LeftPanel" align=center style="width: 45%; height: 100%; float: left; padding-left: 5%;">
   <h3>{{name}}</h3>
   <IMG SRC={{ plot_file }} ALT=' ' WIDTH=100%></IMG>
+</div>
+<div id="LeftPanel" align=center style="width: 80%; height: 100%; float: left; padding-left: 10%;">
+  <table class="table">
+  <thead>
+    <tr>
+      <th colspan="4">{{name}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cm</td><td>sdfs</td><td>17-83</td><td>5-95</td><td>99.9</td>
+    </tr>
+
+
+
+  </tbody>
+  </table>
 </div>
 </div>
 {% endblock %}
