@@ -84,7 +84,8 @@ def location(name):
       'nn':len(station_names),
       'zoom':5,
       'name':name,
-      'table':table
+      'table':table,
+      'color_dict':{'rcp26':'blue','rcp45':'green','rcp85':'red'}
     }
     s['name']=name
     s['location']='main'

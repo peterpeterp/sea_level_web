@@ -117,9 +117,9 @@
   <h3>{{name}}</h3>
   <IMG SRC={{ plot_file }} ALT=' ' WIDTH=100%></IMG>
 </div>
-<div id="LeftPanel" align=center style="width: 80%; height: 100%; float: left; padding-left: 10%;">
+<div id="LeftPanel" align=center style="width: 90%; height: 100%; float: left; padding-left: 5%;">
   <table class="table">
-  {% for rcp in ['rcp26','rcp45','rcp85'] %}
+
     <thead>
       <tr>
         <th colspan="5">{{rcp}}</th>
@@ -131,13 +131,18 @@
       </tr>
       {% for year in [2030,2050,2100,2150,2200] %}
         <tr>
-          {% for val in ['year','50','17-83','5-95','99.9'] %}
-          <td>{{table[rcp][year][val]}}</td>
+          <td>{{year}}</td>
+          {% for val in ['50','17-83','5-95','99.9'] %}
+          <td>
+            {% for rcp in ['rcp26','rcp45','rcp85'] %}
+            <!-- <font color={{color_dict[rcp]}}>{{table[rcp][year][val]}}</font> -->
+              <div style="color:{{color_dict[rcp]}};">{{table[rcp][year][val]}}</div>
+            {% endfor %}
+          </td>
           {% endfor %}
         </tr>
       {% endfor %}
     </tbody>
-  {% endfor %}
 </table>
 </div>
 </div>
