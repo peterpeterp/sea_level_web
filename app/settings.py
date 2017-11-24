@@ -34,14 +34,17 @@ import dimarray as da
 stations=da.read_nc('data/stations.nc')['stations']
 slr=da.read_nc('data/slr.nc')['slr']
 
-station_names=list(stations.name)
-station_lons,station_lats,station_colors,station_icons=[],[],[],[]
+station_lons,station_lats,station_names=[],[],[]
+grid_xmin,grid_xmax,grid_ymin,grid_ymax,grid_names=[],[],[],[],[]
 for name in stations.name:
+    if stations[name,'tide']:
+        station_names.append(name)
         station_lons.append(float(stations[name,'lon']))
         station_lats.append(float(stations[name,'lat']))
-        if stations[name,'tide']:
-            station_colors.append('red')
-            station_icons.append('http://dev.openlayers.org/img/marker-gold.png')
-        if stations[name,'tide']==False:
-            station_colors.append('green')
-            station_icons.append('http://dev.openlayers.org/img/marker-green.png')
+
+    if stations[name,'tide']==False:
+        grid_names.append(name)
+        grid_xmin.append(float(stations[name,'lon']-1))
+        grid_xmax.append(float(stations[name,'lon']+1))
+        grid_ymin.append(float(stations[name,'lat']-1))
+        grid_ymax.append(float(stations[name,'lat']+1))

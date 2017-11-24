@@ -44,8 +44,13 @@ def flash_errors(form):
 station_names=settings.station_names
 station_lons=settings.station_lons
 station_lats=settings.station_lats
-station_colors=settings.station_colors
-station_icons=settings.station_icons
+
+grid_names=settings.grid_names
+grid_xmin=settings.grid_xmin
+grid_xmax=settings.grid_xmax
+grid_ymin=settings.grid_ymin
+grid_ymax=settings.grid_ymax
+
 stations=settings.stations
 slr=settings.slr
 languages={'en':'English','fr':'Français'}
@@ -76,12 +81,16 @@ def location(name):
       'station_names':json.dumps(station_names),
       'station_lons':json.dumps(station_lons),
       'station_lats':json.dumps(station_lats),
-      'station_icons':json.dumps(station_icons),
-      'station_colors':json.dumps(station_colors),
+      'grid_names':json.dumps(grid_names),
+      'grid_xmin':json.dumps(grid_xmin),
+      'grid_xmax':json.dumps(grid_xmax),
+      'grid_ymin':json.dumps(grid_ymin),
+      'grid_ymax':json.dumps(grid_ymax),
       'plot_file':'/static/plots/'+str(int(stations[name,'ID']))+'.png',
       'center_lon':stations[name,'lon'],
       'center_lat':stations[name,'lat'],
-      'nn':len(station_names),
+      'nstations':len(station_names),
+      'ngrid':len(grid_ymax),
       'zoom':5,
       'name':name,
       'table':table,

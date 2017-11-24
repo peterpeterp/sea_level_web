@@ -12,11 +12,9 @@
   var station_names = {{station_names|safe}};
   var station_lons = {{station_lons|safe}};
   var station_lats = {{station_lats|safe}};
-  var station_colors = {{station_colors|safe}};
-  var station_icons = {{station_icons|safe}};
-  var nn = {{nn}};
+  var nstations = {{nstations}};
 
-  for (i = 0; i<nn; i++){
+  for (i = 0; i<nstations; i++){
     var iconFeature = new ol.Feature({
       geometry: new ol.geom.Point(ol.proj.fromLonLat([station_lons[i],station_lats[i]], 'EPSG:4326')),
       name: station_names[i],
@@ -26,8 +24,33 @@
         anchor: [0.5, 1],
         anchorXUnits: 'fraction',
         anchorYUnits: 'fraction',
-        src: station_icons[i]
+        src: 'http://dev.openlayers.org/img/marker-green.png'
       }))
+    });
+    iconFeature.setStyle(iconStyle);
+    iconFeatures.push(iconFeature);
+  }
+
+  var grid_names = {{grid_names|safe}};
+  var grid_xmin = {{grid_xmin|safe}};
+  var grid_xmax = {{grid_xmax|safe}};
+  var grid_ymin = {{grid_ymin|safe}};
+  var grid_ymax = {{grid_ymax|safe}};
+  var ngrid = {{ngrid}};
+
+  for (i = 0; i<ngrid; i++){
+    var iconFeature = new ol.Feature({
+      geometry: new ol.geom.Polygon.fromExtent(ol.proj.fromLonLat([grid_xmin[i],grid_ymin[i],grid_xmax[i],grid_ymax[i]], 'EPSG:4326'))  ,
+      name: grid_names[i],
+    });
+    var iconStyle = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: [150, 150,0,0.3],
+      }),
+      stroke: new ol.style.Stroke({
+        color: [150, 150,0,1],
+        width: 2
+      })
     });
     iconFeature.setStyle(iconStyle);
     iconFeatures.push(iconFeature);
