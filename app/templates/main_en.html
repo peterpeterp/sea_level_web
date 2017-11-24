@@ -84,6 +84,8 @@
     })
   });
 
+
+
   var element = document.getElementById('popup');
 
   var popup = new ol.Overlay({
@@ -94,6 +96,9 @@
   });
   map.addOverlay(popup);
 
+  // window.location = "/location/"+feature.get('name');
+
+
   // display popup on click
   map.on('click', function(evt) {
     var feature = map.forEachFeatureAtPixel(evt.pixel,
@@ -102,30 +107,49 @@
         });
     if (feature) {
       var coordinates = feature.getGeometry().getCoordinates();
-      popup.setPosition(coordinates);
       window.location = "/location/"+feature.get('name');
-      $(element).popover({
-        'placement': 'top',
-        'html': true,
-        'content': feature.get('name')
-      });
-      $(element).popover('show');
-    } else {
-      $(element).popover('destroy');
     }
 
   });
 
   // change mouse cursor when over marker
-  map.on('pointermove', function(e) {
-    if (e.dragging) {
+  map.on('pointermove', function(evt) {
+    var feature = map.forEachFeatureAtPixel(evt.pixel,
+        function(feature) {
+          return feature;
+        });
+    if (feature) {
+      if (feature.get('name').substr(0, 4) != 'grid'){
+        var coordinates = feature.getGeometry().getCoordinates();
+        popup.setPosition(coordinates);
+        $(element).popover({
+          'placement': 'top',
+          'html': true,
+          'content': feature.get('name')
+        });
+        $(element).popover('show');
+      } else {
+        $(element).popover('destroy');
+      }
+    } else {
       $(element).popover('destroy');
-      return;
     }
-    var pixel = map.getEventPixel(e.originalEvent);
+    var pixel = map.getEventPixel(evt.originalEvent);
     var hit = map.hasFeatureAtPixel(pixel);
     map.getTarget().style.cursor = hit ? 'pointer' : '';
   });
+
+  // // change mouse cursor when over marker
+  // map.on('pointermove', function(e) {
+  //   if (e.dragging) {
+  //     $(element).popover('destroy');
+  //     return;
+  //   }
+  //   var pixel = map.getEventPixel(e.originalEvent);
+  //   var hit = map.hasFeatureAtPixel(pixel);
+  //   map.getTarget().style.cursor = hit ? 'pointer' : '';
+  // });
+
 </script>
 
 <div align='left'>
