@@ -60,6 +60,7 @@ def index():
   session['language']='en'
   session['location']='index'
   session['name']='MAGUEYES ISLAND'
+  #return render_template('feature.html')
   return location(session['name'])
 
 @app.route('/location/<name>')
