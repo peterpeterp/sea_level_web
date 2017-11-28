@@ -31,6 +31,8 @@ import pandas as pd
 import pycountry
 import dimarray as da
 
+inland_grids=['grid_14.0_16.0','grid_12.0_16.0','grid_14.0_14.0','grid_12.0_14.0','grid_0.0_32.0','grid_-2.0_32.0','grid_-0.0_34.0','grid_-2.0_34.0','grid_-4.0_30.0','grid_-6.0_30.0','grid_-8.0_30.0','grid_-8.0_32.0','grid_-10.0_34.0','grid_-12.0_34.0','grid_-14.0_34.0','grid_-12.0_36.0','grid_-14.0_36.0','grid_46.0_58.0','grid_46.0_60.0','grid_46.0_62.0','grid_44.0_58.0','grid_44.0_60.0','grid_44.0_62.0','grid_56.0_110.0','grid_54.0_110.0','grid_54.0_108.0','grid_52.0_108.0','grid_52.0_106.0','grid_52.0_106.0','grid_52.0_104.0','grid_62.0_242.0','grid_62.0_244.0','grid_62.0_246.0','grid_62.0_248.0','grid_62.0_250.0','grid_62.0_252.0','grid_60.0_244.0','grid_60.0_246.0','grid_60.0_250.0','grid_60.0_252.0','grid_64.0_238.0']
+
 stations=da.read_nc('data/stations.nc')['stations']
 slr=da.read_nc('data/slr.nc')['slr']
 
@@ -43,8 +45,9 @@ for name in stations.name:
         station_lats.append(float(stations[name,'lat']))
 
     if stations[name,'tide']==False:
-        grid_names.append(name)
-        grid_xmin.append(float(stations[name,'lon']-1))
-        grid_xmax.append(float(stations[name,'lon']+1))
-        grid_ymin.append(float(stations[name,'lat']-1))
-        grid_ymax.append(float(stations[name,'lat']+1))
+        if name not in inland_grids:
+            grid_names.append(name)
+            grid_xmin.append(float(stations[name,'lon']-1))
+            grid_xmax.append(float(stations[name,'lon']+1))
+            grid_ymin.append(float(stations[name,'lat']-1))
+            grid_ymax.append(float(stations[name,'lat']+1))

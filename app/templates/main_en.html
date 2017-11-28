@@ -5,157 +5,162 @@
 <div id="content">
 <div id="LeftPanel" align='center' style="width: 50%; height: 100%; float: left;">
 <h3>Choose a location:</h3>
-<div id="map" class="map"><div id="popup"></div></div>
+<div id="map" style="width: 600px; height: 500px;" class="smallmap"></div>
+<div class="container-fluid">
+ <div class="row-fluid">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+  <div id="map" class="map"></div>
+	<div id="popup" class="popup">
+		<a href="/" id="popup-closer"> </a>
+		<div id="popup-content"></div>
+	</div>
+  </div>
+ </div>
+</div>
 <script>
 
-  var iconFeatures =[];
-  var station_names = {{station_names|safe}};
-  var station_lons = {{station_lons|safe}};
-  var station_lats = {{station_lats|safe}};
-  var nstations = {{nstations}};
+var iconFeatures =[];
+var station_names = {{station_names|safe}};
+var station_lons = {{station_lons|safe}};
+var station_lats = {{station_lats|safe}};
+var nstations = {{nstations}};
 
-  for (i = 0; i<nstations; i++){
-    var iconFeature = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.fromLonLat([station_lons[i],station_lats[i]], 'EPSG:4326')),
-      name: station_names[i],
-    });
-    var iconStyle = new ol.style.Style({
-      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-        anchor: [0.5, 1],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'fraction',
-        src: 'http://dev.openlayers.org/img/marker-green.png'
-      }))
-    });
-    iconFeature.setStyle(iconStyle);
-    iconFeatures.push(iconFeature);
-  }
-
-  var grid_names = {{grid_names|safe}};
-  var grid_xmin = {{grid_xmin|safe}};
-  var grid_xmax = {{grid_xmax|safe}};
-  var grid_ymin = {{grid_ymin|safe}};
-  var grid_ymax = {{grid_ymax|safe}};
-  var ngrid = {{ngrid}};
-
-  for (i = 0; i<ngrid; i++){
-    var iconFeature = new ol.Feature({
-      geometry: new ol.geom.Polygon.fromExtent(ol.proj.fromLonLat([grid_xmin[i],grid_ymin[i],grid_xmax[i],grid_ymax[i]], 'EPSG:4326'))  ,
-      name: grid_names[i],
-    });
-    var iconStyle = new ol.style.Style({
-      fill: new ol.style.Fill({
-        color: [150, 150,0,0.3],
-      }),
-      stroke: new ol.style.Stroke({
-        color: [150, 150,0,1],
-        width: 2
-      })
-    });
-    iconFeature.setStyle(iconStyle);
-    iconFeatures.push(iconFeature);
-  }
-
-  var vectorSource = new ol.source.Vector({
-    features: iconFeatures
+for (i = 0; i<nstations; i++){
+  var iconFeature = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([station_lons[i],station_lats[i]], 'EPSG:4326')),
+    name: station_names[i],
+    description: 'blas'
   });
-
-  var vectorLayer = new ol.layer.Vector({
-    source: vectorSource,
+  var iconStyle = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      anchor: [0.5, 1],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'fraction',
+      src: 'http://dev.openlayers.org/img/marker-green.png'
+    }))
   });
+  iconFeature.setStyle(iconStyle);
+  iconFeatures.push(iconFeature);
+}
 
-  var rasterLayer = new ol.layer.Tile({
-    source: new ol.source.TileJSON({
-      url: 'https://api.tiles.mapbox.com/v3/mapbox.natural-earth-hypso-bathy.json?secure',
-      crossOrigin: ''
+var grid_names = {{grid_names|safe}};
+var grid_xmin = {{grid_xmin|safe}};
+var grid_xmax = {{grid_xmax|safe}};
+var grid_ymin = {{grid_ymin|safe}};
+var grid_ymax = {{grid_ymax|safe}};
+var ngrid = {{ngrid}};
+
+for (i = 0; i<ngrid; i++){
+  var iconFeature = new ol.Feature({
+    geometry: new ol.geom.Polygon.fromExtent(ol.proj.fromLonLat([grid_xmin[i],grid_ymin[i],grid_xmax[i],grid_ymax[i]], 'EPSG:4326'))  ,
+    name:grid_names[i]
+  });
+  var iconStyle = new ol.style.Style({
+    fill: new ol.style.Fill({
+      color: [150, 150,0,0.3],
+    }),
+    stroke: new ol.style.Stroke({
+      color: [150, 150,0,1],
+      width: 2
     })
   });
+  iconFeature.setStyle(iconStyle);
+  iconFeatures.push(iconFeature);
+}
 
-  var center_lon = {{center_lon}};
-  var center_lat = {{center_lat}};
-  var zoom = {{zoom}};
-  var map = new ol.Map({
-    layers: [rasterLayer, vectorLayer],
-    target: document.getElementById('map'),
-    view: new ol.View({
-      center: ol.proj.fromLonLat([center_lon, center_lat], 'EPSG:4326'),
-      zoom: zoom,
-      projection: 'EPSG:4326'
-    })
-  });
+var vectorSource = new ol.source.Vector({
+  features: iconFeatures
+});
 
+var vectorLayer = new ol.layer.Vector({
+  source: vectorSource,
+});
 
+var rasterLayer = new ol.layer.Tile({
+  source: new ol.source.TileJSON({
+    url: 'https://api.tiles.mapbox.com/v3/mapbox.natural-earth-hypso-bathy.json?secure',
+    crossOrigin: ''
+  })
+});
 
-  var element = document.getElementById('popup');
+var center_lon = {{center_lon}};
+var center_lat = {{center_lat}};
+var zoom = {{zoom}};
+var map = new ol.Map({
+  layers: [rasterLayer, vectorLayer],
+  target: document.getElementById('map'),
+  view: new ol.View({
+    center: ol.proj.fromLonLat([center_lon, center_lat], 'EPSG:4326'),
+    zoom: zoom,
+    projection: 'EPSG:4326'
+  })
+});
 
-  var popup = new ol.Overlay({
-    element: element,
-    positioning: 'bottom-center',
-    stopEvent: false,
-    offset: [0, 0]
-  });
-  map.addOverlay(popup);
+function elem_id(id) {
+	return document.getElementById(id);
+}
 
-  // window.location = "/location/"+feature.get('name');
-
-
-  // display popup on click
-  map.on('click', function(evt) {
+var popup = elem_id('popup');
+var popup_closer = elem_id('popup-closer');
+var popup_content = elem_id('popup-content');
+var olpopup = new ol.Overlay({
+    element: popup,
+    autoPan: false
+});
+map.addOverlay(olpopup);
+popup_closer.onclick = function () {
+    olpopup.setPosition(undefined);
+    return false;
+};
+var OpenPopup = function (evt) {
     var feature = map.forEachFeatureAtPixel(evt.pixel,
-        function(feature) {
-          return feature;
-        });
-    if (feature) {
-      var coordinates = feature.getGeometry().getCoordinates();
-      window.location = "/location/"+feature.get('name');
-    }
-
-  });
-
-  // change mouse cursor when over marker
-  map.on('pointermove', function(evt) {
-    var feature = map.forEachFeatureAtPixel(evt.pixel,
-        function(feature) {
-          return feature;
-        });
-    if (feature) {
-      if (feature.get('name').substr(0, 4) != 'grid'){
-        var coordinates = feature.getGeometry().getCoordinates();
-        popup.setPosition(coordinates);
-        $(element).popover({
-          'placement': 'top',
-          'html': true,
-          'content': feature.get('name')
-        });
-        $(element).popover('show');
-      } else {
-        $(element).popover('destroy');
-      }
-    } else {
-      $(element).popover('destroy');
-    }
+    function (feature, layer) {
+        if (feature) {
+          if (feature.get('name').substr(0, 4) != 'grid'){
+            var coord = map.getCoordinateFromPixel(evt.pixel);
+            if (typeof feature.get('features') === 'undefined') {
+                popup_content.innerHTML =feature.get('name');
+            } else {
+                var cfeatures = feature.get('features');
+                if (cfeatures.length > 1) {
+                    popup_content.innerHTML = '<h5><strong>all "Sub-Features"</strong></h5>';
+                    for (var i = 0; i < cfeatures.length; i++) {
+                        $(popup_content).append(cfeatures[i].get('name'));
+                    }
+                }
+                if (cfeatures.length == 1) {
+                    popup_content.innerHTML = cfeatures[0].get('name');
+                }
+            }
+            olpopup.setPosition(coord);
+          };
+        } else {
+            olpopup.setPosition(undefined);
+        }
+    });
     var pixel = map.getEventPixel(evt.originalEvent);
     var hit = map.hasFeatureAtPixel(pixel);
     map.getTarget().style.cursor = hit ? 'pointer' : '';
-  });
+};
+map.on('pointermove', OpenPopup);
 
-  // // change mouse cursor when over marker
-  // map.on('pointermove', function(e) {
-  //   if (e.dragging) {
-  //     $(element).popover('destroy');
-  //     return;
-  //   }
-  //   var pixel = map.getEventPixel(e.originalEvent);
-  //   var hit = map.hasFeatureAtPixel(pixel);
-  //   map.getTarget().style.cursor = hit ? 'pointer' : '';
-  // });
+map.on('click', function(evt) {
+  var feature = map.forEachFeatureAtPixel(evt.pixel,
+      function(feature) {
+        return feature;
+      });
+  if (feature) {
+    var coordinates = feature.getGeometry().getCoordinates();
+    window.location = "/location/"+feature.get('name');
+  }
+
+});
 
 </script>
 
 <div align='left'>
   <br>
-  <IMG SRC='/static/marker-gold.png' ALT=' ' WIDTH=3%></IMG> Tide gauged station<br>
-  <IMG SRC='/static/marker-green.png' ALT=' ' WIDTH=3%></IMG> From gridded dataset<br>
+  <IMG SRC='/static/marker-green.png' ALT=' ' WIDTH=3%></IMG> Tide gauged station<br>
 </div>
 
 </div>
