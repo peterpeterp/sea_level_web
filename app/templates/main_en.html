@@ -3,8 +3,22 @@
 <div id="loading"><div id="overlay"></div><div id='overlay_text'><h1>Loading ... </h1></div></div>
 
 <div id="content">
-<div id="LeftPanel" align='center' style="width: 50%; height: 100%; float: left;">
-<h3>Choose a location:</h3>
+
+<div id="LeftPanel" align=center style="width: 45%; height: 100%; float: left; padding-left: 5%;">
+  <div align='left'>
+  </div>
+  <div class="ui-widget">
+    <form method="POST" action="/location_typed">
+      <!-- <label for="tags">Tags: </label> -->
+      <input id="tags" name='station' value="{{name}}">
+   </form>
+  </div>
+  <IMG SRC={{ plot_file }} ALT=' ' WIDTH=100%></IMG>
+</div>
+
+
+<div id="LeftPanel" align='left' style="width: 50%; height: 100%; float: left;">
+
 <div id="map" style="width: 600px; height: 500px;" class="smallmap"></div>
 <div class="container-fluid">
  <div class="row-fluid">
@@ -19,30 +33,51 @@
 </div>
 <script>
 
+var current_name = "{{name}}";
+
 var iconFeatures =[];
 var station_names = {{station_names|safe}};
 var station_lons = {{station_lons|safe}};
 var station_lats = {{station_lats|safe}};
 var nstations = {{nstations}};
 
+// all stations
 for (i = 0; i<nstations; i++){
   var iconFeature = new ol.Feature({
     geometry: new ol.geom.Point(ol.proj.fromLonLat([station_lons[i],station_lats[i]], 'EPSG:4326')),
     name: station_names[i],
-    description: 'blas'
   });
-  var iconStyle = new ol.style.Style({
-    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-      anchor: [0.5, 1],
-      anchorXUnits: 'fraction',
-      anchorYUnits: 'fraction',
-      src: 'http://dev.openlayers.org/img/marker-green.png'
-    }))
-  });
+  if (station_names[i]==current_name){
+    var iconStyle = new ol.style.Style({
+      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        anchor: [0.5, 1],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: 'http://dev.openlayers.org/img/marker-gold.png'
+      }))
+    });
+  } else {
+    var iconStyle = new ol.style.Style({
+      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        anchor: [0.5, 1],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: 'http://dev.openlayers.org/img/marker-green.png'
+      }))
+    });
+  };
   iconFeature.setStyle(iconStyle);
   iconFeatures.push(iconFeature);
 }
 
+$( function() {
+  var availableTags = station_names;
+  $( "#tags" ).autocomplete({
+    source: availableTags
+  });
+} );
+
+// all grids
 var grid_names = {{grid_names|safe}};
 var grid_xmin = {{grid_xmin|safe}};
 var grid_xmax = {{grid_xmax|safe}};
@@ -50,23 +85,44 @@ var grid_ymin = {{grid_ymin|safe}};
 var grid_ymax = {{grid_ymax|safe}};
 var ngrid = {{ngrid}};
 
+
 for (i = 0; i<ngrid; i++){
-  var iconFeature = new ol.Feature({
-    geometry: new ol.geom.Polygon.fromExtent(ol.proj.fromLonLat([grid_xmin[i],grid_ymin[i],grid_xmax[i],grid_ymax[i]], 'EPSG:4326'))  ,
-    name:grid_names[i]
-  });
-  var iconStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
-      color: [150, 150,0,0.3],
-    }),
-    stroke: new ol.style.Stroke({
-      color: [150, 150,0,1],
-      width: 2
-    })
-  });
-  iconFeature.setStyle(iconStyle);
-  iconFeatures.push(iconFeature);
+  if (grid_names[i]==current_name){
+    var iconFeature = new ol.Feature({
+      geometry: new ol.geom.Polygon.fromExtent(ol.proj.fromLonLat([grid_xmin[i],grid_ymin[i],grid_xmax[i],grid_ymax[i]], 'EPSG:4326'))  ,
+      name:grid_names[i]
+    });
+    var iconStyle = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: [150, 0,0,0.5],
+      }),
+      stroke: new ol.style.Stroke({
+        color: [150, 150,0,1],
+        width: 2
+      })
+    });
+    iconFeature.setStyle(iconStyle);
+    iconFeatures.push(iconFeature);
+  };
+  if (grid_names[i]!=current_name){
+    var iconFeature = new ol.Feature({
+      geometry: new ol.geom.Polygon.fromExtent(ol.proj.fromLonLat([grid_xmin[i],grid_ymin[i],grid_xmax[i],grid_ymax[i]], 'EPSG:4326'))  ,
+      name:grid_names[i]
+    });
+    var iconStyle = new ol.style.Style({
+      fill: new ol.style.Fill({
+        color: [150, 150,0,0.3],
+      }),
+      stroke: new ol.style.Stroke({
+        color: [150, 150,0,1],
+        width: 2
+      })
+    });
+    iconFeature.setStyle(iconStyle);
+    iconFeatures.push(iconFeature);
+  };
 }
+
 
 var vectorSource = new ol.source.Vector({
   features: iconFeatures
@@ -157,18 +213,11 @@ map.on('click', function(evt) {
 });
 
 </script>
-
-<div align='left'>
-  <br>
-  <IMG SRC='/static/marker-green.png' ALT=' ' WIDTH=3%></IMG> Tide gauged station<br>
+<br>
+<IMG SRC='/static/marker-green.png' ALT=' ' WIDTH=3%></IMG> Tide gauged station<br>
 </div>
 
-</div>
 
-<div id="LeftPanel" align=center style="width: 45%; height: 100%; float: left; padding-left: 5%;">
-  <h3>{{name}}</h3>
-  <IMG SRC={{ plot_file }} ALT=' ' WIDTH=100%></IMG>
-</div>
 <div id="LeftPanel" align=center style="width: 90%; height: 100%; float: left; padding-left: 5%;">
   <table class="table">
 

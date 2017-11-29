@@ -23,48 +23,5 @@ from wtforms import RadioField, SelectMultipleField, TextField, IntegerField, Se
 from flask_wtf import Form,validators
 from wtforms.validators import ValidationError, Required, Regexp
 
-
-class countryForm(Form):
-  countrys = SelectField(' ', choices=[],
-            validators=[Required("Please select at least one region.")])
-
-class regionForm(Form):
-  regions = SelectField(u'', choices=[],
-            validators=[Required("Please select at least one region.")])
-
-class indicatorForm(Form):
-  indicators = SelectField(u'', choices=[],
-            validators=[Required("Please select at least one region.")])
-
-class scenarioForm(Form):
-  scenarios = SelectField(u'', choices=[],
-            validators=[Required("Please select at least one region.")])
-
-class datasetForm(Form):
-  datasets = SelectField(u'', choices=[],
-            validators=[Required("Please select at least one region.")])
-
-class seasonForm(Form):
-  seasons = SelectField(u'', choices=[],
-            validators=[Required("Please select at least one season.")])
-
-class warming_lvlForm(Form):
-  warming_lvls = SelectField(u'', choices=[],
-            validators=[Required("Please select at least one period.")])
-
-class warming_lvl_refForm(Form):
-  warming_lvl_refs = SelectField(u'', choices=[],
-            validators=[Required("Please select at least one period.")])
-
-class PeriodField(Form):
-  regex = "[1-2][0-9]{3}-[1-2][0-9]{3}"
-
-  ref_period    = TextField(u'', validators=[Regexp(regex, message="Please use YYYY-YYYY format.")])
-  proj_period   = TextField(u'', validators=[Regexp(regex, message="Please use YYYY-YYYY format.")])
-
-class NewRegionForm(Form):
-  region_name    = TextField(u'region', validators=[Required()])
-
-class NewSeasonForm(Form):
-  season_name    = TextField(u'season', validators=[Required()])
-
+class stationForm(Form):
+  station = TextField(' ')

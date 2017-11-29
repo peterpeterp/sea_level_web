@@ -62,8 +62,15 @@ def index():
   session['name']='MAGUEYES ISLAND'
   return location(session['name'])
 
+@app.route('/location_typed', methods=['GET', 'POST'])
+def location_typed():
+    session['name'] = request.form['station']
+
+    return redirect(url_for("location",name=session['name']))
+
 @app.route('/location/<name>')
 def location(name):
+    print name
     s=session
     ID=stations[name,'ID']
 
@@ -78,6 +85,7 @@ def location(name):
                             '99.9':slr[ID,rcp,0.999,year]}
 
     context = {
+      'stationForm':forms.stationForm(request.form),
       'station_names':json.dumps(station_names),
       'station_lons':json.dumps(station_lons),
       'station_lats':json.dumps(station_lats),
