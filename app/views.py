@@ -99,7 +99,7 @@ def location(name):
       'center_lat':stations[name,'lat'],
       'nstations':len(station_names),
       'ngrid':len(grid_ymax),
-      'zoom':5,
+      'zoom':6,
       'name':name,
       'table':table,
       'color_dict':{'rcp26':'blue','rcp45':'green','rcp85':'red'}
