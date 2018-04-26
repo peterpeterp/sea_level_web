@@ -53,6 +53,7 @@ grid_ymax=settings.grid_ymax
 
 stations=settings.stations
 slr=settings.slr
+#decomp=settings.decomp
 languages={'en':'English','fr':'Français'}
 
 @app.route('/')
@@ -107,6 +108,12 @@ def location(name):
     s['name']=name
     s['location']='main'
     return render_template('main_en.html',**context)
+
+@app.route('/prepare_for_download/<plot_request>',  methods=('GET',"POST", ))
+def prepare_for_download(plot_request):
+  print plot_request,str(int(stations[plot_request,'ID']))+'.pdf'
+  return send_from_directory(directory=settings.basepath+'app/static/plots/', filename=str(int(stations[plot_request,'ID']))+'.pdf',as_attachment=True)
+
 
 ###############################
 # Navigation
