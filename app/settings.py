@@ -37,7 +37,7 @@ basepath='/Users/peterpfleiderer/Documents/Projects/'
 try:
   os.chdir(basepath)
 except:
-  basepath='/home/sea_level_/'
+  basepath='/home/'
 
 basepath+='sea_level_web/'
 os.chdir(basepath)
