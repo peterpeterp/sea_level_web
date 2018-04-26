@@ -101,7 +101,7 @@ def location(name):
       'nstations':len(station_names),
       'ngrid':len(grid_ymax),
       'zoom':6,
-      'name':name,
+      'name':name.replace('grid_','grid-cell (').replace('_',',')+')',
       'table':table,
       'color_dict':{'rcp26':'blue','rcp45':'green','rcp85':'red'}
     }
