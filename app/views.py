@@ -111,7 +111,7 @@ def location(name):
 
 @app.route('/prepare_for_download/<plot_request>',  methods=('GET',"POST", ))
 def prepare_for_download(plot_request):
-  plot_request=plot_request.replace('grid-cell (','grid_').replace(',','_').replace(')','')
+  plot_request=plot_request.replace('grid-cell (','grid_').replace('N,','.0_').replace('E)','.0')
   print plot_request,str(int(stations[plot_request,'ID']))+'.pdf'
   return send_from_directory(directory=settings.basepath+'app/static/plots/', filename=str(int(stations[plot_request,'ID']))+'.pdf',as_attachment=True)
 
