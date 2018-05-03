@@ -28,7 +28,6 @@ import forms
 import json
 
 import numpy as np
-from mpl_toolkits.basemap import Basemap
 from shapely.geometry import mapping, Polygon, MultiPolygon
 import matplotlib.pylab as plt
 import seaborn as sns
@@ -80,10 +79,10 @@ def location(name):
         table[rcp]={}
         for year in [2030,2050,2100,2150,2200]:
             table[rcp][year]={'year':year,
-                            '50':slr[ID,rcp,0.5,year],
-                            '17-83':str(slr[ID,rcp,0.167,year])+'-'+str(slr[ID,rcp,0.833,year]),
-                            '5-95':str(slr[ID,rcp,0.05,year])+'-'+str(slr[ID,rcp,0.95,year]),
-                            '99.9':slr[ID,rcp,0.999,year]}
+                            '50':int(round(slr[ID,rcp,0.5,year])),
+                            '17-83':str(int(round(slr[ID,rcp,0.167,year])))+'-'+str(int(round(slr[ID,rcp,0.833,year]))),
+                            '5-95':str(int(round(slr[ID,rcp,0.05,year])))+'-'+str(int(round(slr[ID,rcp,0.95,year]))),
+                            '99.9':int(round(slr[ID,rcp,0.999,year]))}
 
     context = {
       'stationForm':forms.stationForm(request.form),
@@ -103,7 +102,7 @@ def location(name):
       'zoom':6,
       'name':name.replace('grid_','grid-cell (').replace('.0_','N,').replace('.0','E)'),
       'table':table,
-      'color_dict':{'rcp26':'blue','rcp45':'green','rcp85':'red'}
+      'color_dict':{'rcp26':'red','rcp45':'green','rcp85':'blue'}
     }
     s['name']=name
     s['location']='main'

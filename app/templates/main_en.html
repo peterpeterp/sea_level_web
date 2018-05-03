@@ -235,10 +235,10 @@
 
 <div id="LeftPanel" align='left' style="width: 45%; height: 100%; float: left; padding-left=5%">
 
-  {% if name.split('_')[0]=='grid' %}
+  {% if name.split(' ')[0]=='grid-cell' %}
   <p style="background-color:rgba(250,170,170,0.5);"><b>We strongly recommend using projections for tide gauged stations if possible!</b></p>
   {% endif %}
-  <p>Local sea level projections for {{name}} for a low emission scenario (RCP26 in blue), an intermediate emission scenario (RCP45 in green) and a high emission scenario (RCP85 in red). The solid lines represent multi-model medians, the shaded areas include 66% of the models.</p>
+  <p>Local sea level projections for {{name}} for a low emission scenario (RCP26 in red), an intermediate emission scenario (RCP45 in green) and a high emission scenario (RCP85 in blue). The solid lines represent multi-model medians, the shaded areas include 66% of the models.</p>
   <div class="ui-widget" align='center'>
     <form method="POST" action="/location_typed">
       <!-- <label for="tags">Location: </label> -->
@@ -250,7 +250,7 @@
 <!-- </div>
 <div id="LeftPanel" align=center style="width: 60%; height: 100%; float: left; padding-left: 5%;"> -->
 <br><br>
-  <p>Local sea level projections for {{name}} as in the above figure listed for some selected decades. The first column shows the multi-model median projections (solid line of the figure), columns 2 shows the 66% uncertainty range (shaded area in the figure), column 3 shows the 90% uncertainty range, and column 4 shows the upper limit defined as the 99th percentile of the ensemble projections.</p>
+  <p>Local sea level projections for {{name}} as in the above figure listed for some selected decades. The first column shows the multi-model median projections (solid line of the figure), columns 2 shows the 66% uncertainty range (shaded area in the figure), column 3 shows the 90% uncertainty range, and column 4 shows the upper limit defined as the 99th percentile of the ensemble projections. As in the figure, RCP26 is shown in red, RCP45 in green and RCP85 in blue.</p>
   <table class="table">
     <thead>
       <tr>
@@ -259,6 +259,10 @@
     </thead>
     <tbody>
       <tr>
+        <th colspan="5"><div align="center">Local Sea Level Rise [mm] </div></th>
+        <!-- <font color="color:{{color_dict["rcp26"]}};">RCP26</font> <font color="color:{{color_dict["rcp45"]}};">RCP45</font> <font color="color:{{color_dict["rcp85"]}};">RCP85</font> -->
+      </tr>
+       <tr>
         <th> decade</th><th>median</th><th colspan="2">uncertainty ranges</th><th>upper limit</th>
       </tr>
       <tr>
