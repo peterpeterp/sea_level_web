@@ -4,4 +4,5 @@ data/LSLproj_decompGRIDDED
 data/*.py
 data/LSLproj_griddedRCPs.tsv
 app/*.pyc
-app/static/plots
+app/static/plots/*
+data/plots/*
