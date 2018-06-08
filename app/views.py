@@ -95,6 +95,9 @@ def location(name):
       'grid_ymin':json.dumps(grid_ymin),
       'grid_ymax':json.dumps(grid_ymax),
       'plot_file':'/static/plots/'+str(int(stations[name,'ID']))+'.png',
+      'decomposition_plot_file_rcp26':'/static/decomposition_plots/'+str(int(stations[name,'ID']))+'_rcp26.png',
+      'decomposition_plot_file_rcp45':'/static/decomposition_plots/'+str(int(stations[name,'ID']))+'_rcp45.png',
+      'decomposition_plot_file_rcp85':'/static/decomposition_plots/'+str(int(stations[name,'ID']))+'_rcp85.png',
       'center_lon':stations[name,'lon'],
       'center_lat':stations[name,'lat'],
       'nstations':len(station_names),
@@ -102,7 +105,7 @@ def location(name):
       'zoom':6,
       'name':name.replace('grid_','grid-cell (').replace('.0_','N,').replace('.0','E)'),
       'table':table,
-      'color_dict':{'rcp26':'red','rcp45':'green','rcp85':'blue'}
+      'color_dict':{'rcp26':'green','rcp45':'orange','rcp85':'red'}
     }
     s['name']=name
     s['location']='main'
@@ -113,6 +116,14 @@ def prepare_for_download(plot_request):
   plot_request=plot_request.replace('grid-cell (','grid_').replace('N,','.0_').replace('E)','.0')
   print plot_request,str(int(stations[plot_request,'ID']))+'.pdf'
   return send_from_directory(directory=settings.basepath+'app/static/plots/', filename=str(int(stations[plot_request,'ID']))+'.pdf',as_attachment=True)
+
+
+# @app.route('/prepare_for_download/<plot_request>',  methods=('GET',"POST", ))
+# def prepare_for_download(plot_request):
+#   #plot_request=plot_request.replace('grid-cell (','grid_').replace('N,','.0_').replace('E)','.0')
+#   print plot_request#,str(int(stations[plot_request,'ID']))+'.pdf'
+#
+#   return send_from_directory(directory=settings.basepath+'app/', filename=plot_request.replace('.png','.pdf'),as_attachment=True)
 
 
 ###############################

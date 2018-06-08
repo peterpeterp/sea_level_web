@@ -5,4 +5,7 @@ data/*.py
 data/LSLproj_griddedRCPs.tsv
 app/*.pyc
 app/static/plots/*
+app/static/decomposition_plots/*
 data/plots/*
+
+data/*nc
