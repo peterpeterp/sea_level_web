@@ -5,11 +5,11 @@
 <div id="content">
 
 <div id="upper_block" align=left style="width: 100%; height: 100%; float: left; padding-right: 0%;">
-    <div id="LeftPanel" align=left style="width: 45%; height: 100%; float: left; padding-right: 5%; background: rgba(170,170,170,0.2);">
-      <div id="LeftPanel" align=left style="width: 95%; height: 100%; float: left; padding-left: 5%; background: rgba(170,170,170,0.0);">
+    <div id="LeftPanel" align=left style="width: 45%; height: 100%; float: left; padding-left: 2%; padding-right: 2%; background: rgba(170,170,170,0.2);">
+      <div id="LeftPanel" align=left style="width: 100%; height: 100%; float: left; background: rgba(170,170,170,0.0);">
         <div align='left'>
           <h2>Local Sea Level Projections</h2>
-          <p>Besides a global increase in sea levels, oceanic processes and local effects as land subsidence lead to substantial <b>regional differences in sea level projections</b> . This website allows you to browse local sea level projections provided by  Robert Kopp et al. (2014). <br>
+          <p>Besides a global increase in sea levels, oceanic processes and local effects as land subsidence lead to substantial <b>regional differences in sea level projections</b> <a href="#lower_part">(see below)</a>. This website allows you to browse local sea level projections provided by <a href="https://pubs.giss.nasa.gov/abs/ko01500z.html">Robert Kopp et al. (2014)</a>. <br>
              <div class="ui-widget">
               <form method="POST" action="/location_typed">
                 <label for="tags">Search for a tide gauged station: </label>
@@ -216,27 +216,30 @@
         <br>
         <p>At locations where no tide gauged station is available, gridded sea level projections can be selected (yellow squares). Gridded sea level projections come with substantially higher uncertainities. Therefore, <b>we strongly recommend to use projections for tide gauged stations</b> whenever this is possible!</p>
         <br>
+        <p>Sea level projections are presented for three <b>emission scenarios</b>:
+          <ul>
+            <li>A scenario compatible with the Paris Agreement (RCP26)</li>
+            <li>A scenario reaching +2.5°C at the end of the century (RCP45)</li>
+            <li>A scenario exceeding +4°C at the end of the century (RCP85)</li>
+          </ul>
+          Allthough these emission scenarios are different from  2006 onwards, differences in sea level rise only become apparent in the second half of the 21st century. This is due to the slow and time-lagged response of sea levels to greenhouse gas forcings.<p>
         <h3>References</h3>
-        <p style="font-size:80%;">Kopp R E, Horton R M, Little C M, Mitrovica J X, Oppenheimer M, Rasmussen D J, Strauss B H and Tebaldi C 2014 Earth’s Future Probabilistic 21st and 22nd century sea-level projections at a global network of tide-gauge sites Earth’s Future</p>
+        <p id="ref" style="font-size:80%;"><a href="https://pubs.giss.nasa.gov/abs/ko01500z.html">Kopp R E, Horton R M, Little C M, Mitrovica J X, Oppenheimer M, Rasmussen D J, Strauss B H and Tebaldi C 2014 Earth’s Future Probabilistic 21st and 22nd century sea-level projections at a global network of tide-gauge sites Earth’s Future</a></p>
       </div>
     </div>
 
-    <div id="LeftPanel" align='left' style="width: 5%; height: 100%; float: left; padding-left=0%">
-      <br>
-    </div>
 
-    <div id="LeftPanel" align='left' style="width: 45%; height: 100%; float: left; padding-left=5%">
+    <div id="LeftPanel" align='left' style="width: 45%; height: 100%; float: left; padding-left: 3%; padding-right: 0%;">
 
       <div id="LeftPanel" align='left' style="width: 100%; float: left; padding-top=5%">
           {% if name.split(' ')[0]=='grid-cell' %}
           <p style="background-color:rgba(250,170,170,0.5);"><b>We strongly recommend using projections for tide gauged stations if possible!</b></p>
           {% endif %}
-          <div class="ui-widget" align='center' style="width: 100%;">
+          <!-- <div class="ui-widget" align='center' style="width: 100%;">
             <form method="POST" action="/location_typed">
-              <!-- <label for="tags">Location: </label> -->
               <input id="tags" name='station' value="{{name}}">
            </form>
-          </div>
+          </div> -->
             <form method="POST" action="/prepare_for_download/{{name}}" style="float: right;"><button type="submit" class="label label-primary" style="margin-right: 5px;">get<br>pdf</button></form>
           <IMG SRC={{ plot_file }} ALT=' ' WIDTH=90%></IMG>
           <p>Local sea level projections for {{name}} for a scenario compatible with the Paris agreement (green), a scenario leading to +2.5°C global mean temperature (orange) and a scenario exceeding +4°C (red). The solid lines represent multi-model medians, the shaded areas include 66% of the models.</p>
@@ -275,7 +278,7 @@
             {% endfor %}
           </tbody>
         </table>
-        <p>Local sea level projections for {{name}} as in the above figure listed for some selected decades. The first column shows the multi-model median projections (solid line of the figure), columns 2 shows the 66% uncertainty range (shaded area in the figure), column 3 shows the 90% uncertainty range, and column 4 shows the upper limit defined as the 99th percentile of the ensemble projections. As in the figure, RCP26 is shown in red, RCP45 in green and RCP85 in blue.</p>
+        <p>Local sea level projections for {{name}} as in the above figure listed for some selected decades. The first column shows the multi-model median projections (solid line of the figure), columns 2 shows the 66% uncertainty range (shaded area in the figure), column 3 shows the 90% uncertainty range, and column 4 shows the upper limit defined as the 99th percentile of the ensemble projections. As in the figure, the Paris-compatible scenario is shown in green, the +2.5°C scenario in orange and the above +4°C scenario in red.</p>
         <br>
       </div>
 
@@ -283,35 +286,34 @@
   </div>
   <div id="upper_block" align=left style="width: 100%; height: 10px; float: left; padding-bottom: 0%; background: rgba(170,170,170,0.8);">
   </div>
-  <div id="upper_block" align=left style="width: 100%; height: 10px; float: left; padding-bottom: 0%; background: rgba(170,170,170,0);">
+  <div id="upper_block" align=left style="width: 100%; height: 10px; float: left; padding-bottom: 0%; ">
   </div>
-  <div id="upper_block" align=left style="width: 100%; height: 100%; float: left; padding-right: 0%;">
-      <div id="LeftPanel" align=left style="width: 45%; height: 100%; float: left; padding-right: 5%; background: rgba(170,170,170,0.2);">
-        <p>Contribution of different modelling components to the overall variance in sea level projections in absolute values (left) and in fractional terms (right).<br><br>
-          Modelled factors are:<br>
-          <ul>
-            <li>AIS: Antarctic ice sheet</li>
-            <li> GIS: Greenland ice sheet</li>
-            <li> TE: thermal expansion</li>
-            <li> Ocean: oceanographic processes</li>
-            <li> GIC: glaciers and ice caps</li>
-            <li> LWS: land water storage</li>
-            <li> Bkgd: local background effects</li>
-          </ul>
-      </div>
-        <div id="LeftPanel" align='left' style="width: 5%; height: 100%; float: left; padding-bottom=0%">
-          <br>
-        </div>
+  <div id="lower_part" align=left style="width: 100%; height: 100%; float: left; padding-right: 0%; background: rgba(170,170,170,0.0);">
+    <div id="LeftPanel" align=left style="width: 45%; height: 100%; float: left; padding-left: 2%; padding-right: 2%; background: rgba(170,170,170,0.2);">
+        <h3>Contributions to local sea level rise</h3>
+        <p>The contributing components modelled by <a href="https://pubs.giss.nasa.gov/abs/ko01500z.html">Robert Kopp et al. (2014)</a> are:<br>
+          <b>Antarctic and Greenland ice sheets (AIS & GIS)</b> based on IPCC AR5 and expert elicitation, <b>glacier and ice caps (GIC)</b> based on an improvement of the IPCC AR5 method, <b>oceanic prorocesses (ocean)</b> including thermal expansion and dynamic effects taken from CMIP5 simulations, <b>land water storage (LWS)</b> taking into account changes in population, and all non-climatic contributions combined into <b>background effects (Bkgd)</b>.
+        </p>
 
-        <div id="LeftPanel" align='left' style="width: 45%; height: 100%; float: left; padding-left=5%">
+      </div>
+
+
+      <div id="LeftPanel" align='left' style="width: 45%; height: 100%; float: left; padding-left: 3%; padding-right: 0%;">
           <div id="LeftPanel" align='left' style="width: 100%; float: left; padding-bottom=10%; background: rgba(170,2,170,0.0);">
             Show source of variance for:  <button onclick="myFunction('rcp26')">RCP26</button> <button onclick="myFunction('rcp45')">RCP45</button> <button onclick="myFunction('rcp85')">RCP85</button>
             <br><br>
-            <div id="rcp26"><IMG SRC={{ decomposition_plot_file_rcp26 }} ALT=' ' WIDTH=95%></IMG><form method="POST" action="/prepare_for_download/{{name}}" style="float: right;"><button type="submit" class="label label-primary" style="margin-right: 5px;">get<br>pdf</button></form></div>
-            <div id="rcp45"><IMG SRC={{ decomposition_plot_file_rcp45 }} ALT=' ' WIDTH=95%></IMG><form method="POST" action="/prepare_for_download/{{name}}" style="float: right;"><button type="submit" class="label label-primary" style="margin-right: 5px;">get<br>pdf</button></form></div>
-            <div id="rcp85"><IMG SRC={{ decomposition_plot_file_rcp85 }} ALT=' ' WIDTH=95%></IMG><form method="POST" action="/prepare_for_download/{{name}}" style="float: right;"><button type="submit" class="label label-primary" style="margin-right: 5px;">get<br>pdf</button></form></div>
+            <div id="rcp26"><IMG SRC={{ decomposition_plot_file_rcp26 }} ALT=' ' WIDTH=100%></IMG>
+              <!-- <form method="POST" action="/prepare_for_download_decomp/{{name}}**rcp26" style="float: right;"><button type="submit" class="label label-primary" style="margin-right: 5px;">get pdf</button></form> -->
+            </div>
+            <div id="rcp45"><IMG SRC={{ decomposition_plot_file_rcp45 }} ALT=' ' WIDTH=100%></IMG>
+              <!-- <form method="POST" action="/prepare_for_download_decomp/{{name}}**rcp45" style="float: right;"><button type="submit" class="label label-primary" style="margin-right: 5px;">get pdf</button></form> -->
+            </div>
+            <div id="rcp85"><IMG SRC={{ decomposition_plot_file_rcp85 }} ALT=' ' WIDTH=100%></IMG>
+              <!-- <form method="POST" action="/prepare_for_download_decomp/{{name}}**rcp85" style="float: right;"><button type="submit" class="label label-primary" style="margin-right: 5px;">get pdf</button></form> -->
+            </div>
             <div id="decomp_caption">
-
+              <br>
+              <p>Source of variance in local sea level projections for all contributing components in absolute terms (left) and as fraction of total variance (right).</p>
             </div>
             <script>
             document.getElementById("rcp26").style.display = "none"
