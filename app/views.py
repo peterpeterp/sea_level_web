@@ -59,7 +59,7 @@ languages={'en':'English','fr':'Français'}
 def index():
   session['language']='en'
   session['location']='index'
-  session['name']='MAGUEYES ISLAND'
+  session['name']='Lime Tree Bay'
   return location(session['name'])
 
 @app.route('/location_typed', methods=['GET', 'POST'])
@@ -73,6 +73,7 @@ def location(name):
     print name
     s=session
     ID=stations[name,'ID']
+    print ID
 
     table={}
     for rcp in ['rcp26','rcp45','rcp85']:
@@ -94,10 +95,10 @@ def location(name):
       'grid_xmax':json.dumps(grid_xmax),
       'grid_ymin':json.dumps(grid_ymin),
       'grid_ymax':json.dumps(grid_ymax),
-      'plot_file':'/static/plots/'+str(int(stations[name,'ID']))+'.png',
-      'decomposition_plot_file_rcp26':'/static/decomposition_plots/'+str(int(stations[name,'ID']))+'_rcp26.png',
-      'decomposition_plot_file_rcp45':'/static/decomposition_plots/'+str(int(stations[name,'ID']))+'_rcp45.png',
-      'decomposition_plot_file_rcp85':'/static/decomposition_plots/'+str(int(stations[name,'ID']))+'_rcp85.png',
+      'plot_file':'/static/plots/'+str(int(ID))+'.png',
+      'decomposition_plot_file_rcp26':'/static/decomposition_plots/'+str(int(ID))+'_rcp26.png',
+      'decomposition_plot_file_rcp45':'/static/decomposition_plots/'+str(int(ID))+'_rcp45.png',
+      'decomposition_plot_file_rcp85':'/static/decomposition_plots/'+str(int(ID))+'_rcp85.png',
       'center_lon':stations[name,'lon'],
       'center_lat':stations[name,'lat'],
       'nstations':len(station_names),
