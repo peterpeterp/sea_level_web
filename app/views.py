@@ -104,12 +104,13 @@ def location(name):
       'nstations':len(station_names),
       'ngrid':len(grid_ymax),
       'zoom':6,
-      'name':name.replace('grid_','grid-cell (').replace('.0_','N,').replace('.0','E)'),
+      'name':name,
       'table':table,
       'color_dict':{'rcp26':'green','rcp45':'orange','rcp85':'red'}
     }
     s['name']=name
     s['location']='main'
+    print(name)
     return render_template('main_en.html',**context)
 
 @app.route('/prepare_for_download/<plot_request>',  methods=('GET',"POST", ))
