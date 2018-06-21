@@ -61,7 +61,7 @@ ds.write_nc('data/stations.nc', mode='w')
 
 station_lons,station_lats,station_names=[],[],[]
 grid_xmin,grid_xmax,grid_ymin,grid_ymax,grid_names=[],[],[],[],[]
-for name in stations.name:
+for name in list(set(stations.name)):
     if stations[name,'tide']:
         station_names.append(name)
         station_lons.append(float(stations[name,'lon']))
