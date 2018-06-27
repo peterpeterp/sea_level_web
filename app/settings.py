@@ -45,23 +45,18 @@ os.chdir(basepath)
 inland_grids=['grid_14.0_16.0','grid_12.0_16.0','grid_14.0_14.0','grid_12.0_14.0','grid_0.0_32.0','grid_-2.0_32.0','grid_-0.0_34.0','grid_-2.0_34.0','grid_-4.0_30.0','grid_-6.0_30.0','grid_-8.0_30.0','grid_-8.0_32.0','grid_-10.0_34.0','grid_-12.0_34.0','grid_-14.0_34.0','grid_-12.0_36.0','grid_-14.0_36.0','grid_46.0_58.0','grid_46.0_60.0','grid_46.0_62.0','grid_44.0_58.0','grid_44.0_60.0','grid_44.0_62.0','grid_56.0_110.0','grid_54.0_110.0','grid_54.0_108.0','grid_52.0_108.0','grid_52.0_106.0','grid_52.0_106.0','grid_52.0_104.0','grid_62.0_242.0','grid_62.0_244.0','grid_62.0_246.0','grid_62.0_248.0','grid_62.0_250.0','grid_62.0_252.0','grid_60.0_244.0','grid_60.0_246.0','grid_60.0_250.0','grid_60.0_252.0','grid_64.0_238.0','grid_58.0_248.0','grid_58.0_250.0','grid_56.0_256.0','grid_56.0_258.0','grid_58.0_258.0','grid_54.0_260.0','grid_54.0_262.0','grid_52.0_262.0','grid_50.0_262.0','grid_52.0_264.0','grid_50.0_264.0','grid_48.0_268.0','grid_48.0_270.0','grid_48.0_272.0','grid_48.0_274.0','grid_48.0_276.0','grid_50.0_272.0','grid_46.0_268.0','grid_46.0_270.0','grid_46.0_272.0','grid_46.0_274.0','grid_46.0_276.0','grid_46.0_278.0','grid_46.0_280.0','grid_44.0_272.0','grid_44.0_274.0','grid_44.0_276.0','grid_44.0_278.0','grid_44.0_280.0','grid_44.0_282.0','grid_44.0_284.0','grid_42.0_272.0','grid_42.0_274.0','grid_42.0_276.0','grid_42.0_278.0','grid_42.0_280.0','grid_42.0_282.0']
 
 slr=da.read_nc('data/slr.nc')['slr']
-#decomp=da.read_nc('data/decomp.nc')['decomp']
+slr_copied=da.read_nc('data/slr_copied.nc')['slr']
+slr=da.concatenate((slr, slr_copied), axis='ID')
 
 
-
-# stations
-stat=pd.read_table('data/Station_LatLon.txt')
-stations=da.DimArray(axes=[[' '.join([nnn__.capitalize() for nnn__ in nn.split(' ')]) for nn in stat['name'][:]],['ID','lon','lat','tide']],dims=['name','info'])
-for i,name in zip(range(len(stat['ID'])),stations.name):
-    stations[name]=[stat['ID'][i],stat['lon'][i],stat['lat'][i],'grid' not in stat['name'][i].split('_')]
-
-ds=da.Dataset({'stations':stations})
-ds.write_nc('data/stations.nc', mode='w')
+stations=da.read_nc('data/stations.nc')['stations']
+stations_copied=da.read_nc('data/stations_copied.nc')['stations']
+stations=da.concatenate((stations, stations_copied), axis='name')
 
 
 station_lons,station_lats,station_names=[],[],[]
 grid_xmin,grid_xmax,grid_ymin,grid_ymax,grid_names=[],[],[],[],[]
-for name in list(set(stations.name)):
+for name in stations.name:
     if stations[name,'tide']:
         station_names.append(name)
         station_lons.append(float(stations[name,'lon']))

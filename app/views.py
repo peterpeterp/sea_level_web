@@ -73,7 +73,7 @@ def location(name):
     print name
     s=session
     ID=stations[name,'ID']
-    print ID
+    print ID,len(grid_names),len(grid_ymax)
 
     table={}
     for rcp in ['rcp26','rcp45','rcp85']:
