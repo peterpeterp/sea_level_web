@@ -342,15 +342,15 @@
               <!-- <font color="color:{{color_dict["rcp26"]}};">RCP26</font> <font color="color:{{color_dict["rcp45"]}};">RCP45</font> <font color="color:{{color_dict["rcp85"]}};">RCP85</font> -->
             </tr>
              <tr>
-              <th> decade</th><th>median</th><th colspan="2">uncertainty ranges</th><th>upper limit</th>
+              <th> decade</th><th>median</th><th colspan="2">uncertainty ranges</th>
             </tr>
             <tr>
-              <td> </td><td> </td><td>66%</td><td>90%</td><td>99.9th percentile</td>
+              <td> </td><td> </td><td>66%</td><td>90%</td>
             </tr>
             {% for year in [2030,2050,2100,2150,2200] %}
               <tr>
                 <td>{{year}}</td>
-                {% for val in ['50','17-83','5-95','99.9'] %}
+                {% for val in ['50','17-83','5-95'] %}
                 <td>
                   {% for rcp in ['rcp26','rcp45','rcp85'] %}
                   <!-- <font color={{color_dict[rcp]}}>{{table[rcp][year][val]}}</font> -->
