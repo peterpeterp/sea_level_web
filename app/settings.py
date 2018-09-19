@@ -26,14 +26,14 @@
 
 import sys,glob,os,pickle,string
 import numpy as np
-from netCDF4 import Dataset,netcdftime,num2date
+from netCDF4 import Dataset,num2date
 import pandas as pd
 import pycountry
 import dimarray as da
 
 
 # basepath is the directory where the app is located
-basepath='/Users/peterpfleiderer/Documents/Projects/'
+basepath='/Users/peterpfleiderer/Projects/'
 try:
   os.chdir(basepath)
 except:

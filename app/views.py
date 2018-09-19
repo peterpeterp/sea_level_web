@@ -158,6 +158,12 @@ def language_choice():
 def render_home():
   return redirect(url_for('index'))
 
+# this one is triggered when clicking on localSLR on main page
+@app.route('/location/back',  methods=('GET', ))
+def locaback():
+  return location(session['name'])
+
+# this one is triggered when clicking on localSLR on about page
 @app.route('/back',  methods=('GET', ))
 def back():
   return location(session['name'])
