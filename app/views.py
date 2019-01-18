@@ -29,8 +29,6 @@ import json
 
 import numpy as np
 from shapely.geometry import mapping, Polygon, MultiPolygon
-import matplotlib.pylab as plt
-import seaborn as sns
 
 def flash_errors(form):
     for field, errors in form.errors.items():
