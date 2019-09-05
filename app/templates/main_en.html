@@ -203,11 +203,14 @@
           });
 
           var rasterLayer = new ol.layer.Tile({
-            source: new ol.source.TileJSON({
-              url: 'https://api.tiles.mapbox.com/v3/mapbox.natural-earth-hypso-bathy.json?secure',
+            source: new ol.source.XYZ({
+              // url: 'https://api.tiles.mapbox.com/v3/mapbox.natural-earth-hypso-bathy.json?secure',
+              url: 'https://api.mapbox.com/styles/v1/emtheok/cjruq3ltg0pzs1fnvf0i2z4id/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZW10aGVvayIsImEiOiJjanJ0MXBmeG0yZ2RkM3lwbnlueW5kbHU2In0.IPIwNpnfHlFW9PXa9A_SQw',
               crossOrigin: ''
             })
           });
+
+          // var rasterLayer =  ol.source.OSM();
 
           var center_lon = {{center_lon}};
           var center_lat = {{center_lat}};

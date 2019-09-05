@@ -53,7 +53,6 @@ stations=da.read_nc('data/stations.nc')['stations']
 stations_copied=da.read_nc('data/stations_copied.nc')['stations']
 stations=da.concatenate((stations, stations_copied), axis='name')
 
-
 station_lons,station_lats,station_names=[],[],[]
 grid_xmin,grid_xmax,grid_ymin,grid_ymax,grid_names=[],[],[],[],[]
 for name in list(set(stations.name)):
