@@ -33,7 +33,7 @@ import dimarray as da
 
 
 # basepath is the directory where the app is located
-basepath='/Users/peterpfleiderer/Projects/'
+basepath='/Users/peterpfleiderer/Box Sync/Website - Online tools/'
 try:
   os.chdir(basepath)
 except:
